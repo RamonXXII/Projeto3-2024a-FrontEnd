@@ -1,0 +1,21 @@
+:root{
+    --color1: #85d172;
+    --color2: #a3dd90;
+    --color3: #c2e8ae;
+    --color4: #e0f4cb;
+    --color5: #ffffe9;
+
+}
+
+#categorias{
+    background-color: var(--color5);
+    border: 2px solid var(--color2);
+    border-radius: 10px;
+}
+
+#produtos{
+    background-color: var(--color4);
+    border: 2px solid var(--color2);
+    border-radius: 10px;
+}
+
