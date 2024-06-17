@@ -1,12 +1,14 @@
 :root{
-    --color1: #85d172;
-    --color2: #a3dd90;
-    --color3: #c2e8ae;
-    --color4: #e0f4cb;
-    --color5: #ffffe9;
+    --cor-do-estoque: #85d172;
+    --submit: #a3dd90;
+    --background-produtos: #c2e8ae;
+    --background-categorias: #e0f4cb;
+    --background-geral: #ffffe9;
+    --verde-forte: #4fe728;
+    --verde-mais-forte: #2ef52e;
 
 }
-
+/*
 #categorias{
     background-color: var(--color5);
     border: 2px solid var(--color2);
@@ -18,4 +20,92 @@
     border: 2px solid var(--color2);
     border-radius: 10px;
 }
+*/
 
+/* Container geral da página Home */
+.container-fluid {
+    padding: 20px;
+    background-color: var(--background-geral);
+  }
+  
+  /* Body centralizado */
+  .body {
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  /* Títulos centralizados */
+  .body h1,
+  .body h2 {
+    text-align: center;
+    margin: 10px 0;
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  
+  .rounded-top-bottom {
+    background-color: var(--cor-do-estoque);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  /* Categorias e formulário */
+  #categorias {
+    background-color: var(--background-categorias);
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  #categorias form div {
+    margin-bottom: 10px;
+  }
+  
+  #categorias form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  #categorias form input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  #categorias form button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--verde-forte);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  #categorias form button:hover {
+    background-color: var(--verde-mais-forte);
+  }
+  
+  /* Produtos */
+  #produtos {
+    background-color: var(--background-produtos);
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  #produtos h3 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
