@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Home.scopped.css';
 import axios from 'axios';
 import Categorias from '../../components/Categorias';
+import Tabela from '../../components/Tabela';
 function Home() {
   const [productName, setProductName] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -74,11 +75,7 @@ function Home() {
             </div>
             <div id= 'produtos' className='col-6'>
               <h3>Produtos</h3>
-              <ul>
-                <li>Produto 1</li>
-                <li>Produto 2</li>
-                <li>Produto 3</li>
-              </ul>
+              <Tabela />
             </div>
 
 
