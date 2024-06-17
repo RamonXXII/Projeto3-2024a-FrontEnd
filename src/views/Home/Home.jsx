@@ -1,22 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Home.scopped.css';
 import axios from 'axios';
 import Categorias from '../../components/Categorias';
 import Tabela from '../../components/Tabela';
 function Home() {
-  const [productName, setProductName] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [brand, setBrand] = useState('');
+  
+  const [category, setCategory] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    size: '',
+    sex: '',
+    quantity: '',
+    brand: ''
+  });
+
+  const handleCategoryChange = (selectedCategory) => {
+    // Resetar o formulário quando a categoria muda
+    setFormData({
+      name: '',
+      size: '',
+      sex: '',
+      quantity: '',
+      brand: ''
+    });
+    console.log('Categoria selecionada:', selectedCategory);
+    setCategory(selectedCategory);
+    // Você pode fazer outras operações com base na categoria selecionada, se necessário
+  };
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [id]: value
+    }));
+    console.log('Form Data:', formData);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const productData = {
-      nome  : productName,
-      qtd   : quantity,
-      marca : brand
-    };
-    console.log('Product Data:', productData);
+    console.log('Form Data:', formData);
 
+    
     /*
     try {
       const response = await axios.post('http://localhost:5000/api/products', productData);
@@ -40,35 +65,37 @@ function Home() {
             </div>
 
             <div id= 'categorias' className='col-6'>
-              <Categorias />
               <form onSubmit={handleSubmit}>
                 <div>
-                  <label htmlFor="productName">Product Name:</label>
-                  <input
-                    type="text"
-                    id="productName"
-                    value={productName}
-                    onChange={(e) => setProductName(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="quantity">Quantity:</label>
-                  <input
-                    type="number"
-                    id="quantity"
-                    value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="brand">Brand:</label>
-                  <input
-                    type="text"
-                    id="brand"
-                    value={brand}
-                    onChange={(e) => setBrand(e.target.value)}
-                  />
-                </div>
+                  <Categorias onCategoryChange={handleCategoryChange} />
+                </div> 
+                { category === 'roupa' && (
+                  <div>
+                    <label htmlFor="name">Nome:</label>
+                    <input type="text" id="name" value={formData.name} onChange={handleInputChange} />
+                    <label htmlFor="size">Tamanho:</label>
+                    <input type="text" id="size" value={formData.size} onChange={handleInputChange} />
+                    <label htmlFor="sex">Sexo:</label>
+                    <input type="text" id='sex' value={formData.sex} onChange={handleInputChange} />
+
+                    <label htmlFor="quantity">Quantidade</label>
+                    <input type="number" id="quantity" value={formData.quantity} onChange={handleInputChange} />
+
+                  </div>)
+
+
+                }
+                { category === 'comida' && (
+                  <div>
+                    <label htmlFor="name">Nome:</label>
+                    <input type="text" id="name" value={formData.name} onChange={handleInputChange} />
+                    <label htmlFor="brand">Marca:</label>
+                    <input type="text" id="brand" value={formData.brand} onChange={handleInputChange} />
+                    <label htmlFor="quantity">Quantidade</label>
+                    <input type="number" id="quantity" value={formData.quantity} onChange={handleInputChange} />
+                  </div>
+                )}
+                
                 <button type="submit">Submit</button>
               </form>
 

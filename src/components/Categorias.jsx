@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
 
-function Categorias() {
-  const [inputValue, setInputValue] = useState("");
+function Categorias(props) {
+  const [category, setCategory] = useState('');
+
+  const handleCategoryChange = (e) => {
+    const selectedCategory = e.target.value;
+    setCategory(selectedCategory);
+    // Chama a função de callback passada como prop para enviar o valor selecionado
+    props.onCategoryChange(selectedCategory);
+    console.log('Categoria selecionada:', selectedCategory);
+  };
 
   return (
     <div>
-      <label htmlFor="exampleDataList" className="form-label">Escolha a categoria do item a ser armazenado</label>
-      <input
-        className="form-control"
-        list="datalistOptions"
-        id="exampleDataList"
-        placeholder="Comida, Bebida, Roupas"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-      />
-      <datalist id="datalistOptions">
-        <option value="Comida" />
-        <option value="Bebida" />
-        <option value="Roupas" />
-      </datalist>
+      <div>
+        <label htmlFor="category">Categoria:</label>
+        <select id="category" value={category} onChange={handleCategoryChange}>
+          <option value="">Selecione uma categoria</option>
+          <option value="roupa">Roupa</option>
+          <option value="comida">Comida</option>
+        </select>
+      </div>
     </div>
   );
 }
