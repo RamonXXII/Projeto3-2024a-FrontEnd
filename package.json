@@ -29,7 +29,6 @@
     "deploy": "gh-pages -d build"
   },
 
-
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -52,6 +51,5 @@
     "gh-pages": "^6.1.1"
   },
 
-  "homepage": "https://RamonXXII.github.io/Projeto3-2024a-FrontEnd"
-
+  "homepage": "https://project3-mauro-ramon.web.app/"
 }
