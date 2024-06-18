@@ -19,6 +19,7 @@ function Categorias(props) {
           <option value="">Selecione uma categoria</option>
           <option value="roupa">Roupa</option>
           <option value="comida">Comida</option>
+          <option value="bebida">Bebida</option>
         </select>
       </div>
     </div>

@@ -4,15 +4,20 @@ import './Tabela.scopped.css';
 import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 
-
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 function TabelaProdutos() {
   const [selectedFilter, setSelectedFilter] = useState([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  const [modalOpen, setModalOpen] = useState(false);
+  const [produtoSelecionado, setProdutoSelecionado] = useState(null);
 
   useEffect(() => {
     fetchData();
@@ -43,26 +48,31 @@ function TabelaProdutos() {
   });
 
   const handleUpdate = (index) => {
-    // Lógica para atualizar o produto com base no índice
     const produtoAtualizar = filteredData[index];
-    // console.log(`Atualizar item no índice ${index}:`, produtoAtualizar);
+    setProdutoSelecionado(produtoAtualizar);
+    setModalOpen(true);
+  };
 
-    // Aqui você pode implementar uma lógica para abrir um modal ou formulário de edição com os dados do produto
-    // Por exemplo:
-    // setModalOpen(true);
-    // setProdutoSelecionado(produtoAtualizar);
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setProdutoSelecionado(null);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const res = await axios.put('https://estoque-api-latest.onrender.com/estoque', { id : produtoSelecionado._id, atr : produtoSelecionado.atr });
+      console.log(res);
+      handleCloseModal();
+    } catch (error) {
+      console.error('Erro ao atualizar produto:', error);
+    } finally {
+      fetchData();
+    }
   };
 
   const handleDelete = async (index) => {
-    // Lógica para deletar o produto com base no índice
     const produtoExcluir = filteredData[index];
-    // console.log(`Deletar item no índice ${index}:`, produtoExcluir);
-
-    // Aqui você pode implementar a lógica para confirmar a exclusão do produto
-    // Por exemplo:
-     if (window.confirm(`Tem certeza que deseja excluir ${produtoExcluir.atr.prod}?`)) {
-      // Após a exclusão bem-sucedida, atualiza os dados
-      console.log('Excluir produto:', produtoExcluir);
+    if (window.confirm(`Tem certeza que deseja excluir ${produtoExcluir.atr.name}?`)) {
       try {
         const res = await axios.delete('https://estoque-api-latest.onrender.com/estoque', { data : { id : produtoExcluir._id } } )
         console.log(res);
@@ -75,7 +85,6 @@ function TabelaProdutos() {
       }
     }
   };
-
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -96,10 +105,10 @@ function TabelaProdutos() {
           Bebida
         </span>
         <span
-          className={`filter-option ${selectedFilter.includes('roupas') ? 'selected' : ''}`}
-          onClick={() => toggleFilter('roupas')}
+          className={`filter-option ${selectedFilter.includes('roupa') ? 'selected' : ''}`}
+          onClick={() => toggleFilter('roupa')}
         >
-          Roupas
+          Roupa
         </span>
       </div>
       <Table striped bordered hover>
@@ -109,6 +118,9 @@ function TabelaProdutos() {
             <th>Marca</th>
             <th>Quantidade</th>
             <th>Ações</th>
+            <td className="actions">
+            <FontAwesomeIcon icon={faArrowsRotate} onClick={() => fetchData()} className="action-icon" />
+            </td>
           </tr>
         </thead>
         <tbody>
@@ -125,6 +137,63 @@ function TabelaProdutos() {
           ))}
         </tbody>
       </Table>
+      {/* Modal de Edição */}
+      <Modal show={modalOpen} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar Produto</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="formNome">
+              <Form.Label>Nome do Produto</Form.Label>
+              <Form.Control
+                type="text"
+                value={produtoSelecionado?.atr.name || ''}
+                onChange={(e) =>
+                  setProdutoSelecionado((prev) => ({
+                    ...prev,
+                    atr: { ...prev.atr, name: e.target.value },
+                  }))
+                }
+              />
+            </Form.Group>
+            <Form.Group controlId="formMarca">
+              <Form.Label>Marca</Form.Label>
+              <Form.Control
+                type="text"
+                value={produtoSelecionado?.atr.brand || ''}
+                onChange={(e) =>
+                  setProdutoSelecionado((prev) => ({
+                    ...prev,
+                    atr: { ...prev.atr, brand: e.target.value },
+                  }))
+                }
+              />
+            </Form.Group>
+            <Form.Group controlId="formQuantidade">
+              <Form.Label>Quantidade</Form.Label>
+              <Form.Control
+                type="number"
+                value={produtoSelecionado?.atr.quantity || ''}
+                onChange={(e) =>
+                  setProdutoSelecionado((prev) => ({
+                    ...prev,
+                    atr: { ...prev.atr, quantity: e.target.value },
+                  }))
+                }
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Fechar
+          </Button>
+          <Button variant="primary" onClick={handleSubmit}>
+            Salvar Alterações
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
