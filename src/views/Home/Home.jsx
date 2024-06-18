@@ -5,6 +5,8 @@ import Categorias from '../../components/Categorias';
 import Tabela from '../../components/Tabela';
 function Home() {
   
+  const api_url = "https://estoque-api-latest.onrender.com/"
+
   const [category, setCategory] = useState('');
   const [formData, setFormData] = useState({
     name: '',
@@ -25,6 +27,10 @@ function Home() {
     });
     console.log('Categoria selecionada:', selectedCategory);
     setCategory(selectedCategory);
+
+    // use useEffect to focus on the first input field when the category changes
+    
+
     // Você pode fazer outras operações com base na categoria selecionada, se necessário
   };
 
@@ -35,12 +41,22 @@ function Home() {
       [id]: value
     }));
     console.log('Form Data:', formData);
+
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     console.log('Form Data:', formData);
 
+    
+    axios.post(api_url + 'estoque', {cat : category, atr : formData})
+    .then(response => {
+        console.log(response.data);
+    })
+    .catch(error => {
+        console.error('Error saving data:', error);
+    });
+    
     
     /*
     try {

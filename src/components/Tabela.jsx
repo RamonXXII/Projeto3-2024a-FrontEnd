@@ -1,31 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import './Tabela.scopped.css';
+import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-const data = [
-  { tipo: 'comida', nome: 'Maçã', marca: 'Marca A', quantidade: 10 },
-  { tipo: 'bebida', nome: 'Suco', marca: 'Marca B', quantidade: 5 },
-  { tipo: 'comida', nome: 'Banana', marca: 'Marca C', quantidade: 20 },
-  { tipo: 'bebida', nome: 'Água', marca: 'Marca D', quantidade: 30 },
-  // Adicione mais itens conforme necessário
-];
 
 function TabelaProdutos() {
   const [selectedFilter, setSelectedFilter] = useState([]);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://estoque-api-latest.onrender.com/estoque');
+        setData(response.data.data); // Ajuste conforme a estrutura da resposta da API
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+        console.log('Data:', data);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const toggleFilter = (filter) => {
-    setSelectedFilter(prevSelected =>
+    setSelectedFilter((prevSelected) =>
       prevSelected.includes(filter)
-        ? prevSelected.filter(item => item !== filter)
+        ? prevSelected.filter((item) => item !== filter)
         : [...prevSelected, filter]
     );
   };
 
-  const filteredData = data.filter(item => {
+  const filteredData = data.filter((item) => {
     if (selectedFilter.length === 0) return true;
-    return selectedFilter.includes(item.tipo);
+    return selectedFilter.includes(item.cat);
   });
 
   const handleUpdate = (index) => {
@@ -37,6 +50,9 @@ function TabelaProdutos() {
     // Lógica para deletar o produto com base no índice
     console.log(`Deletar item no índice ${index}`);
   };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div>
@@ -54,40 +70,10 @@ function TabelaProdutos() {
           Bebida
         </span>
         <span
-          className={`filter-option ${selectedFilter.includes('comida') ? 'selected' : ''}`}
-          onClick={() => toggleFilter('comida')}
+          className={`filter-option ${selectedFilter.includes('roupas') ? 'selected' : ''}`}
+          onClick={() => toggleFilter('roupas')}
         >
-          Comida
-        </span>
-        <span
-          className={`filter-option ${selectedFilter.includes('bebida') ? 'selected' : ''}`}
-          onClick={() => toggleFilter('bebida')}
-        >
-          Bebida
-        </span>
-        <span
-          className={`filter-option ${selectedFilter.includes('comida') ? 'selected' : ''}`}
-          onClick={() => toggleFilter('comida')}
-        >
-          Comida
-        </span>
-        <span
-          className={`filter-option ${selectedFilter.includes('bebida') ? 'selected' : ''}`}
-          onClick={() => toggleFilter('bebida')}
-        >
-          Bebida
-        </span>
-        <span
-          className={`filter-option ${selectedFilter.includes('comida') ? 'selected' : ''}`}
-          onClick={() => toggleFilter('comida')}
-        >
-          Comida
-        </span>
-        <span
-          className={`filter-option ${selectedFilter.includes('bebida') ? 'selected' : ''}`}
-          onClick={() => toggleFilter('bebida')}
-        >
-          Bebida
+          Roupas
         </span>
       </div>
       <Table striped bordered hover>
@@ -96,15 +82,16 @@ function TabelaProdutos() {
             <th>Nome do Produto</th>
             <th>Marca</th>
             <th>Quantidade</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
           {filteredData.map((item, index) => (
-            <tr key={index} className='table-row'>
-              <td>{item.nome}</td>
-              <td>{item.marca}</td>
-              <td>{item.quantidade}</td>
-              <td className='actions'>
+            <tr key={index} className="table-row">
+              <td>{item.atr.prod}</td>
+              <td>{item.atr.marca}</td>
+              <td>{item.atr.qtd}</td>
+              <td className="actions">
                 <FontAwesomeIcon icon={faEdit} onClick={() => handleUpdate(index)} className="action-icon" />
                 <FontAwesomeIcon icon={faTrash} onClick={() => handleDelete(index)} className="action-icon" />
               </td>
