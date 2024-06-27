@@ -7,6 +7,8 @@ import { AnimatePresence } from 'framer-motion';
 
 /* views */
 import Home from './views/Home/Home';
+import Login from './views/Login/Login';
+import Register from './views/Register/Register';
 
 function Router() {
   const location = useLocation();
@@ -14,13 +16,30 @@ function Router() {
     <AnimatePresence>
       <Routes location={location} key={location.pathname}>
         <Route
-          path="/"
+          path="/home"
           element={
             //<HomeLayout>
               <Home />
             //</HomeLayout>
           }
         />
+        <Route
+          path="/"
+          element={
+            //<HomeLayout>
+              <Login />
+            //</HomeLayout>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            //<HomeLayout>
+              <Register />
+            //</HomeLayout>
+          }
+        />
+
       </Routes>
     </AnimatePresence>
   );

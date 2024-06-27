@@ -14,6 +14,12 @@ function Home() {
     brand: ''
   });
 
+  const config = {
+    headers: {
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    }
+  };
+
   const handleCategoryChange = (selectedCategory) => {
     // Resetar o formulário quando a categoria muda
     setFormData({
@@ -56,7 +62,7 @@ function Home() {
               <h1 >Estoque</h1>
               <h2 >Feito por Mauro e Ramon</h2>
             </div>
-            <div id= 'categorias' className='col-6'>
+            <div id= 'categorias' className=' col-12 col-md-6'>
               <form onSubmit={handleSubmit}>
                 <div>
                   <Categorias onCategoryChange={handleCategoryChange} />
@@ -77,7 +83,7 @@ function Home() {
                 <button type="submit">Submit</button>
               </form>
             </div>
-            <div id= 'produtos' className='col-6'>
+            <div id= 'produtos' className='col-12 col-md-6 mt-4 mt-md-0'>
               <Tabela />
             </div>
           </div>
