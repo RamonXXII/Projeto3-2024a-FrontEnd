@@ -44,7 +44,7 @@ function Home() {
     e.preventDefault();
     // console.log('Form Data:', formData);
 
-    axios.post(api_url + 'estoque', {cat : category, atr : formData})
+    axios.post(api_url + 'estoque', {cat : category, atr : formData}, config)
     .then(response => {
       console.log(response.data);
     })

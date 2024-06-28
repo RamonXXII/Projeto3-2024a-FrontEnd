@@ -10,6 +10,8 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
+const api_url = 'https://estoque-api-latest.onrender.com/';
+
 function TabelaProdutos() {
   const [selectedFilter, setSelectedFilter] = useState([]);
   const [data, setData] = useState([]);
@@ -19,13 +21,19 @@ function TabelaProdutos() {
   const [modalOpen, setModalOpen] = useState(false);
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
 
+  const config = {
+    headers: {
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://estoque-api-latest.onrender.com/estoque');
-      setData(response.data.data); // Ajuste conforme a estrutura da resposta da API
+      const response = await axios.get(api_url + 'estoque', config);
+      setData(response.data.data);
       console.log('Data:', response.data.data);
     } catch (error) {
       setError(error);
@@ -60,7 +68,13 @@ function TabelaProdutos() {
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.put('https://estoque-api-latest.onrender.com/estoque', { id : produtoSelecionado._id, atr : produtoSelecionado.atr });
+      console.log('Config:', config)
+      const body = { 
+        id : produtoSelecionado.id, 
+        atr : produtoSelecionado.atr 
+      }
+      console.log('Body:', body);      
+      const res = await axios.put(api_url + 'estoque', body ,config);
       console.log(res);
       handleCloseModal();
     } catch (error) {
@@ -74,7 +88,7 @@ function TabelaProdutos() {
     const produtoExcluir = filteredData[index];
     if (window.confirm(`Tem certeza que deseja excluir ${produtoExcluir.atr.name}?`)) {
       try {
-        const res = await axios.delete('https://estoque-api-latest.onrender.com/estoque', { data : { id : produtoExcluir._id } } )
+        const res = await axios.delete(api_url + 'estoque', { headers: config.headers, data : { id : produtoExcluir.id } } );
         console.log(res);
         
       } catch (error) {
@@ -111,32 +125,36 @@ function TabelaProdutos() {
           Roupa
         </span>
       </div>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Nome do Produto</th>
-            <th>Marca</th>
-            <th>Quantidade</th>
-            <th>Ações</th>
-            <td className="actions">
-            <FontAwesomeIcon icon={faArrowsRotate} onClick={() => fetchData()} className="action-icon" />
-            </td>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredData.map((item, index) => (
-            <tr key={index} className="table-row">
-              <td>{item.atr.name}</td>
-              <td>{item.atr.brand}</td>
-              <td>{item.atr.quantity}</td>
+      <div style={{ maxHeight: "300px", overflowY: "auto" , overflowX : "auto"}}>
+        <Table striped bordered hover>
+          <thead style={{ position: "sticky", 
+              top: "0" }}>
+            <tr>
+              <th>Produto</th>
+              <th>Marca</th>
+              <th>Estoque</th>
+              <th>Ações</th>
               <td className="actions">
-                <FontAwesomeIcon icon={faEdit} onClick={() => handleUpdate(index)} className="action-icon" />
-                <FontAwesomeIcon icon={faTrash} onClick={() => handleDelete(index)} className="action-icon" />
+              <FontAwesomeIcon icon={faArrowsRotate} onClick={() => fetchData()} className="action-icon" />
               </td>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {filteredData.map((item, index) => (
+              <tr key={index} className="table-row">
+                <td>{item.atr.name}</td>
+                <td>{item.atr.brand}</td>
+                <td>{item.atr.quantity}</td>
+                <td className="actions">
+                  <FontAwesomeIcon icon={faEdit} onClick={() => handleUpdate(index)} className="action-icon" />
+                  <FontAwesomeIcon icon={faTrash} onClick={() => handleDelete(index)} className="action-icon" />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+
+      </div>
       {/* Modal de Edição */}
       <Modal show={modalOpen} onHide={handleCloseModal}>
         <Modal.Header closeButton>

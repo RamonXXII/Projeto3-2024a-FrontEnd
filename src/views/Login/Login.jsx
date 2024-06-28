@@ -25,18 +25,6 @@ const Login = () => {
       return;
     }
 
-
-    axios.get(api_url + 'user')
-    .then(response => {
-      console.log(response.data);
-      //navigate('/home')
-    })
-    .catch(error => {
-      console.error('Error saving data:', error);
-      setError('Erro ao logar usuário:', error);
-    }
-    );
-
     axios.post(api_url + 'login',  {name: user, key: password})
     .then(response => {
       console.log(response.data);
