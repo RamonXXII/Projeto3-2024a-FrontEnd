@@ -60,7 +60,6 @@ function Home() {
           <div className="row mb-5">
             <div className="d-flex flex-column col-12 justify-content-center align-items-center rounded-top-bottom">
               <h1 >Estoque</h1>
-              <h2 >Feito por Mauro e Ramon</h2>
             </div>
             <div id= 'categorias' className=' col-12 col-md-6'>
               <form onSubmit={handleSubmit}>
