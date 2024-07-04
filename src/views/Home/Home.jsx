@@ -2,7 +2,7 @@ import React, { useState} from 'react';
 import './Home.scopped.css';
 import axios from 'axios';
 import Categorias from '../../components/Categorias';
-import Tabela from '../../components/Tabela';
+import Tabela, {refreshTabela} from '../../components/Tabela';
 
 function Home() {
   const api_url = "https://estoque-api-latest.onrender.com/"
@@ -46,6 +46,7 @@ function Home() {
 
     axios.post(api_url + 'estoque', {cat : category, atr : formData}, config)
     .then(response => {
+      refreshTabela();
       console.log(response.data);
     })
     .catch(error => {

@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Table from 'react-bootstrap/Table';
 import './Tabela.scopped.css';
 import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash, faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 const api_url = 'https://estoque-api-latest.onrender.com/';
+
+export var refreshTabela = () => {};
 
 function TabelaProdutos() {
   const [selectedFilter, setSelectedFilter] = useState([]);
@@ -21,16 +23,14 @@ function TabelaProdutos() {
   const [modalOpen, setModalOpen] = useState(false);
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
 
-  const config = {
+  const config = useMemo( () => ({
     headers: {
       'Authorization': 'Bearer ' + localStorage.getItem('token')
     }
-  };
+  }), []);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-  const fetchData = async () => {
+  const fetchData = useCallback( async () => {
+    setLoading(true);
     try {
       const response = await axios.get(api_url + 'estoque', config);
       setData(response.data.data);
@@ -40,7 +40,13 @@ function TabelaProdutos() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [config]);
+
+  refreshTabela = fetchData;
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
   
   const toggleFilter = (filter) => {
     setSelectedFilter((prevSelected) =>
@@ -104,7 +110,7 @@ function TabelaProdutos() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div>
+    <div id="tabela">
       <div className="filter-container">
         <span
           className={`filter-option ${selectedFilter.includes('comida') ? 'selected' : ''}`}
@@ -134,9 +140,6 @@ function TabelaProdutos() {
               <th>Marca</th>
               <th>Estoque</th>
               <th>Ações</th>
-              <td className="actions">
-              <FontAwesomeIcon icon={faArrowsRotate} onClick={() => fetchData()} className="action-icon" />
-              </td>
             </tr>
           </thead>
           <tbody>

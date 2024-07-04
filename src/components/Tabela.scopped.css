@@ -4,7 +4,6 @@
   margin-bottom: 20px;
 }
 
-
 .filter-option {
   cursor: pointer;
   padding: 10px 20px;
@@ -26,13 +25,13 @@
   background-color: #ddd;
 }
 
-.table-row .actions {
+/* .table-row .actions {
   visibility: hidden;
 }
 
 .table-row:hover .actions {
   visibility: visible;
-}
+} */
 
 .action-icon {
   cursor: pointer;
