@@ -9,6 +9,9 @@ import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import SpinnerLoading from './Spinner';
+
+
 
 const api_url = 'https://estoque-api-latest.onrender.com/';
 
@@ -106,7 +109,9 @@ function TabelaProdutos() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div id='loading'>
+    <SpinnerLoading></SpinnerLoading>
+  </div>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (

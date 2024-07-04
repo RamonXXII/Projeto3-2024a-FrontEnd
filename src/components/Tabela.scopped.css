@@ -42,3 +42,10 @@
 .action-icon:hover {
   color: #007bff;
 }
+
+#loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

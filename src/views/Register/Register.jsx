@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Register.scopped.css';
+import SpinnerLoading from '../../components/Spinner';
 
 const Register = () => {
   const api_url = "https://estoque-api-latest.onrender.com/"
@@ -10,6 +11,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -19,15 +21,16 @@ const Register = () => {
       setError('As senhas não conferem');
       return;
     }
-
+    setLoading(true);
     axios.post(api_url + 'user' , {name : username, key: password})
     .then(response => {
       console.log(response.data);
       navigate('/home');
     })
-    .catch(error => {
-      setError('Erro ao registrar usuário');
+    .catch(error=> {
+      setError(`Erro ao registrar usuário: ${error.response.data.error}`);
       console.error('Error saving data:', error);
+      setLoading(false);
     });
 
   };
@@ -71,6 +74,11 @@ const Register = () => {
         </div>
         {error && <p className="error">{error}</p>}
         <button type="submit">Cadastrar</button>
+        {loading && 
+        <div id='loading'>
+          <SpinnerLoading></SpinnerLoading>
+        </div>
+        }
       </form>
     </div>
   );

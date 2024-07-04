@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './Login.scopped.css';
 import axios from 'axios';
-
+import SpinnerLoading from '../../components/Spinner';
 
 const Login = () => {
   const api_url = "https://estoque-api-latest.onrender.com/"
@@ -10,6 +10,7 @@ const Login = () => {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
 
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ const Login = () => {
       setError('Usuário e senha são obrigatórios');
       return;
     }
+    setLoading(true);
 
     axios.post(api_url + 'login',  {name: user, key: password})
     .then(response => {
@@ -33,7 +35,8 @@ const Login = () => {
     })
     .catch(error => {
       console.error('Error saving data:', error);
-      setError('Erro ao logar usuário:', error);
+      setError(`Erro ao logar usuário: ${error.response.data.error}`);
+      setLoading(false);
     }
     );
 
@@ -41,7 +44,9 @@ const Login = () => {
 
   return (
     <div className="login-form">
-      <h1>Login</h1>
+      <h1>Login
+        
+      </h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="user">Usuario</label>
@@ -65,11 +70,17 @@ const Login = () => {
             required 
           />
         </div>
-        {error && <p>{error}</p>
+        {error && <p className="error">{error}</p>
         }
         <p>Não tem uma conta? <Link to="/register">Cadastre-se</Link></p>
 
         <button type="submit">Login</button>
+
+        {loading && 
+        <div id='loading'>
+          <SpinnerLoading></SpinnerLoading>
+        </div>
+        }
       </form>
     </div>
   );
