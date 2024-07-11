@@ -31,6 +31,7 @@ const Login = () => {
     .then(response => {
       console.log(response.data);
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', user);
       navigate('/home')
     })
     .catch(error => {

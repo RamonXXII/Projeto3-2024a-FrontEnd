@@ -4,14 +4,11 @@ import './Tabela.scopped.css';
 import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-
+import { faEdit, faTrash, faArrowUpAZ, faArrowDownAZ, faArrowUp19, faArrowDown19} from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import SpinnerLoading from './Spinner';
-
-
 
 const api_url = 'https://estoque-api-latest.onrender.com/';
 
@@ -20,8 +17,13 @@ export var refreshTabela = () => {};
 function TabelaProdutos() {
   const [selectedFilter, setSelectedFilter] = useState([]);
   const [data, setData] = useState([]);
+
+  const [asc, setAsc] = useState(true);
+  const [currentSort, setCurrentSort] = useState('Produto');
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filteredData, setFilteredData] = useState([]);
   
   const [modalOpen, setModalOpen] = useState(false);
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
@@ -58,11 +60,6 @@ function TabelaProdutos() {
         : [...prevSelected, filter]
     );
   };
-
-  const filteredData = data.filter((item) => {
-    if (selectedFilter.length === 0) return true;
-    return selectedFilter.includes(item.cat);
-  });
 
   const handleUpdate = (index) => {
     const produtoAtualizar = filteredData[index];
@@ -109,6 +106,47 @@ function TabelaProdutos() {
     }
   };
 
+  useEffect(() => {
+    const sortData = () => {
+      const filteredData_ = data.filter((item) => {
+        if (selectedFilter.length === 0) return true;
+        return selectedFilter.includes(item.cat);
+      });
+
+      const sortedData = [...filteredData_].sort((a, b) => {
+        const valueA = isNaN(+ a.atr[currentSort]) ? a.atr[currentSort] : + a.atr[currentSort];
+        const valueB = isNaN(+ b.atr[currentSort]) ? b.atr[currentSort] : + b.atr[currentSort];
+
+        if (typeof valueA === 'number' && typeof valueB === 'number') {
+          return asc ? valueA - valueB : valueB - valueA;
+        } 
+        else if (typeof valueA === 'string' && typeof valueB === 'string') {
+          if (asc) return valueA.localeCompare(valueB);
+          else return valueB.localeCompare(valueA);
+        }
+        else {
+          return 0; 
+        }
+
+      });
+      setFilteredData(sortedData);
+      console.log(sortedData);
+    };
+    // console.log("entrou no use")
+    sortData();
+  }, [data, currentSort, asc, selectedFilter]); // Dependencies
+
+  function changeSorting(field)
+  {
+    console.log(field)
+    if (field === currentSort) {
+      setAsc(!asc); 
+    } else {
+      setCurrentSort(field);
+      setAsc(true)
+    }
+  }
+
   if (loading) return <div id='loading'>
     <SpinnerLoading></SpinnerLoading>
   </div>;
@@ -141,9 +179,18 @@ function TabelaProdutos() {
           <thead style={{ position: "sticky", 
               top: "0" }}>
             <tr>
-              <th>Produto</th>
-              <th>Marca</th>
-              <th>Estoque</th>
+              <th>
+                Produto 
+                <FontAwesomeIcon onClick={() => changeSorting('name')} icon={currentSort === 'name' && asc ? faArrowUpAZ : faArrowDownAZ} className="action-icon"/>
+              </th>
+              <th>
+                Marca
+                <FontAwesomeIcon onClick={() => changeSorting('brand')} icon={currentSort === 'brand' && asc ? faArrowUpAZ : faArrowDownAZ} className="action-icon"/>
+              </th>
+              <th>
+                Estoque
+                <FontAwesomeIcon onClick={() => changeSorting('quantity')} icon={currentSort === 'quantity' && asc ? faArrowUp19 : faArrowDown19} className="action-icon"/>
+              </th>
               <th>Ações</th>
             </tr>
           </thead>

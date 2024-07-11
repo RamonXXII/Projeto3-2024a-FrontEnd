@@ -3,6 +3,7 @@ import './Home.scopped.css';
 import axios from 'axios';
 import Categorias from '../../components/Categorias';
 import Tabela, {refreshTabela} from '../../components/Tabela';
+import Sidebar from '../../components/Sidebar';
 
 function Home() {
   const api_url = "https://estoque-api-latest.onrender.com/"
@@ -60,7 +61,10 @@ function Home() {
         <div className="body">
           <div className="row mb-5">
             <div className="d-flex flex-column col-12 justify-content-center align-items-center rounded-top-bottom">
-              <h1 >Estoque</h1>
+              <h1>Estoque</h1>
+            </div>
+            <div className='d-flex justify-content-end'>
+              <Sidebar></Sidebar>
             </div>
             <div id= 'categorias' className=' col-12 col-md-6'>
               <form onSubmit={handleSubmit}>
