@@ -10,6 +10,8 @@
 .register-form h1 {
   text-align: center;
   margin-bottom: 20px;
+  padding-bottom: 5px;
+  box-shadow: #218838 0px 5px 0px 0px;
 }
 
 .form-group {
@@ -18,7 +20,12 @@
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
+}
+
+.form-group label p{
+  display: inline-block;
+  box-shadow: #218838 0px 5px 0px 0px;
 }
 
 .form-group input {

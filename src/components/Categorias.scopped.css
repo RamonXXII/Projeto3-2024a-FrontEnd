@@ -1,0 +1,24 @@
+:root{
+  --cor-do-estoque: #85d172;
+  --submit: #a3dd90;
+  --background-produtos: #c2e8ae;
+  --background-categorias: #e0f4cb;
+  --background-geral: #ffffe9;
+  --verde-forte: #4fe728;
+  --verde-mais-forte: #2ef52e;
+}
+option{
+  cursor: pointer;
+  background-color: #f2f2f2;
+  transition: background-color 0.3s;
+  font-size: small;
+  border: 1px solid #f2f2f2;
+  border-radius: 5px;
+}
+
+label p{
+  margin-bottom: 5px;
+  font-weight: bold;
+  display: inline-block;
+  box-shadow: #218838 0px 5px 0px 0px;
+}

@@ -74,13 +74,13 @@ function Home() {
                 { category && (
                   <div>
                     <label htmlFor="name">Nome:</label>
-                    <input type="text" id="name" value={formData.name} onChange={handleInputChange} />
+                    <input type="text" id="name" required value={formData.name} onChange={handleInputChange} />
 
                     <label htmlFor="brand">Marca:</label>
-                    <input type="text" id="brand" value={formData.brand} onChange={handleInputChange} />
+                    <input type="text" id="brand" required value={formData.brand} onChange={handleInputChange} />
                     
                     <label htmlFor="quantity">Quantidade</label>
-                    <input type="number" id="quantity" value={formData.quantity} onChange={handleInputChange} />
+                    <input type="number" id="quantity" required value={formData.quantity} onChange={handleInputChange} />
 
                   </div>)
                 }

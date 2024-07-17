@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import './Register.scopped.css';
 import SpinnerLoading from '../../components/Spinner';
@@ -41,7 +41,9 @@ const Register = () => {
       <h1>Cadastro de Usuário</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="username">Nome de Usuário</label>
+          <label htmlFor="username">
+            <p>Nome de Usuário</p>
+            </label>
           <input 
             type="text" 
             id="username" 
@@ -52,7 +54,9 @@ const Register = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Digite sua senha</label>
+          <label htmlFor="password"> 
+            <p>Digite sua senha</p>
+            </label>
           <input 
             type="password" 
             id="password" 
@@ -63,7 +67,9 @@ const Register = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="confirmPassword">Confirme sua senha</label>
+          <label htmlFor="confirmPassword">
+            <p>Confirme sua senha</p>
+          </label>
           <input 
             type="password" 
             id="confirmPassword" 
@@ -73,8 +79,10 @@ const Register = () => {
             required 
             />
         </div>
+        <p id=''>Já tem uma conta? <Link to="/">Faça Login</Link></p>
         {error && <p className="error">{error}</p>}
         <button type="submit">Cadastrar</button>
+
         {loading && 
         <div id='loading'>
           <SpinnerLoading></SpinnerLoading>

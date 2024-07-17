@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import './Categorias.scopped.css';
 function Categorias(props) {
   const [category, setCategory] = useState('');
 
@@ -14,8 +14,8 @@ function Categorias(props) {
   return (
     <div>
       <div>
-        <label htmlFor="category">Categoria:</label>
-        <select id="category" value={category} onChange={handleCategoryChange}>
+        <label htmlFor="category"> <p>Categoria:</p></label>
+        <select id="category" value={category} onChange={handleCategoryChange} placeholder="Selecione uma categoria">
           <option value="">Selecione uma categoria</option>
           <option value="roupa">Roupa</option>
           <option value="comida">Comida</option>

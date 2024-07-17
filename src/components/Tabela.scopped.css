@@ -1,3 +1,14 @@
+:root{
+  --cor-do-estoque: #85d172;
+  --submit: #a3dd90;
+  --background-produtos: #c2e8ae;
+  --background-categorias: #e0f4cb;
+  --background-geral: #ffffe9;
+  --verde-forte: #4fe728;
+  --verde-mais-forte: #2ef52e;
+  --verde-escuro: #2e8f2e;
+}
+
 .filter-container {
   display: flex;
   flex-wrap: wrap;
@@ -16,13 +27,17 @@
 }
 
 .filter-option.selected {
-  background-color: #007bff;
-  color: white;
-  border-color: #007bff;
+  background-color: var(--verde-forte);
+  color: rgb(0, 0, 0);
+  border-color: var();
+}
+
+.filter-option.selected:hover {
+  background-color: var(--verde-escuro);
 }
 
 .filter-option:hover {
-  background-color: #ddd;
+  background-color: var(--verde-forte);
 }
 
 /* .table-row .actions {
@@ -40,7 +55,8 @@
 }
 
 .action-icon:hover {
-  color: #007bff;
+  color: var(--verde-mais-forte);
+
 }
 
 #loading {

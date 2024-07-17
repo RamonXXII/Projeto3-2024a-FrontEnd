@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import './Login.scopped.css';
 import axios from 'axios';
+import './Login.scopped.css';
 import SpinnerLoading from '../../components/Spinner';
 
 const Login = () => {
@@ -44,13 +44,15 @@ const Login = () => {
   };
 
   return (
-    <div className="login-form">
-      <h1>Login
-        
+    <div className="register-form">
+      <h1>
+        Login
       </h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="user">Usuario</label>
+          <label htmlFor="user">
+            <p>Usuário</p>
+          </label>
           <input 
             type="text" 
             id="user" 
@@ -61,7 +63,9 @@ const Login = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Senha</label>
+          <label htmlFor="password">
+            <p>Senha</p>
+            </label>
           <input 
             type="password" 
             id="password" 
