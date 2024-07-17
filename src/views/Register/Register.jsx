@@ -24,7 +24,7 @@ const Register = () => {
     setLoading(true);
     axios.post(api_url + 'user' , {name : username, key: password})
     .then(response => {
-      console.log(response.data);
+      // console.log(response.data);
       localStorage.setItem('token', response.data.token);
       navigate('/home');
     })

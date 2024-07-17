@@ -28,7 +28,7 @@ function Home() {
       quantity: '',
       brand: ''
     });
-    console.log('Categoria selecionada:', selectedCategory);
+    // console.log('Categoria selecionada:', selectedCategory);
     setCategory(selectedCategory);
   };
 
@@ -38,17 +38,22 @@ function Home() {
       ...prevState,
       [id]: value
     }));
-    console.log('Form Data:', formData);
+    // console.log('Form Data:', formData);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log('Form Data:', formData);
+    // console.log(category);
+    if (!category)
+    {
+      window.alert("Selecione uma categoria.");
+      return;
+    }
 
     axios.post(api_url + 'estoque', {cat : category, atr : formData}, config)
-    .then(response => {
+    .then(() => {
       refreshTabela();
-      console.log(response.data);
+      // console.log(response.data);
     })
     .catch(error => {
       console.error('Error saving data:', error);
@@ -63,10 +68,10 @@ function Home() {
             <div className="d-flex flex-column col-12 justify-content-center align-items-center rounded-top-bottom">
               <h1>Estoque</h1>
             </div>
-            <div className='d-flex justify-content-end'>
+            <div id="navbar" className='d-flex justify-content-end'>
               <Sidebar></Sidebar>
             </div>
-            <div id= 'categorias' className=' col-12 col-md-6'>
+            <div id='categorias' className='col-12 col-md-6'>
               <form onSubmit={handleSubmit}>
                 <div>
                   <Categorias onCategoryChange={handleCategoryChange} />
@@ -84,7 +89,7 @@ function Home() {
 
                   </div>)
                 }
-                <button type="submit">Submit</button>
+                <button type="submit">Inserir Produto</button>
               </form>
             </div>
             <div id= 'produtos' className='col-12 col-md-6 mt-4 mt-md-0'>

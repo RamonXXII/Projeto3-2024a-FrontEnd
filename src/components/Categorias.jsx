@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Categorias.scopped.css';
+
 function Categorias(props) {
   const [category, setCategory] = useState('');
 
@@ -8,7 +9,7 @@ function Categorias(props) {
     setCategory(selectedCategory);
     // Chama a função de callback passada como prop para enviar o valor selecionado
     props.onCategoryChange(selectedCategory);
-    console.log('Categoria selecionada:', selectedCategory);
+    // console.log('Categoria selecionada:', selectedCategory);
   };
 
   return (

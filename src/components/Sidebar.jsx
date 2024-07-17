@@ -18,10 +18,10 @@ function Sidebar() {
               'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
           };
-        console.log(config);
+        // console.log(config);
     
-        const res = await axios.post(api_url + 'logout', {}, config);
-        console.log(res);
+        await axios.post(api_url + 'logout', {}, config);
+        // console.log(res);
 
         localStorage.removeItem('token');
         localStorage.removeItem('user');
@@ -41,18 +41,16 @@ function Sidebar() {
             >
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                  Estoque
+                  Bem vindo, <b>{nome}</b>!
                 </Offcanvas.Title>
               </Offcanvas.Header>
 
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="#action1">{nome}</Nav.Link>
-                  <Nav.Link onClick={handleLogout}>
+                  <Nav.Link onClick={handleLogout} id="logout">
                     Logout
                     <FontAwesomeIcon icon={faRightFromBracket} className='action-icon'/>
                   </Nav.Link>
-                  <Nav.Link href="#action3">Historico</Nav.Link>
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>

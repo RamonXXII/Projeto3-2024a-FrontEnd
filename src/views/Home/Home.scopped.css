@@ -6,7 +6,6 @@
     --background-geral: #ffffe9;
     --verde-forte: #4fe728;
     --verde-mais-forte: #2ef52e;
-
 }
 
 /* Container geral da página Home */
@@ -97,3 +96,15 @@
     margin-bottom: 20px;
   }
   
+  #logout {
+    display: inline-block;
+    border-radius: 5px;
+    background-color: #2ef52e;
+    text-align: center;
+  }
+
+  #navbar {
+    position: absolute;
+    top: 4em;
+    right: 1.5em;
+  }

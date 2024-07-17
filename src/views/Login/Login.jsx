@@ -12,14 +12,12 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aqui você pode adicionar a lógica para autenticar o usuário
-    console.log('User:', user);
-    console.log('Password:', password);
+    // console.log('User:', user);
+    // console.log('Password:', password);
 
     if (!user || !password) {
       setError('Usuário e senha são obrigatórios');
@@ -29,7 +27,7 @@ const Login = () => {
 
     axios.post(api_url + 'login',  {name: user, key: password})
     .then(response => {
-      console.log(response.data);
+      // console.log(response.data);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', user);
       navigate('/home')

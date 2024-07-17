@@ -39,7 +39,7 @@ function TabelaProdutos() {
     try {
       const response = await axios.get(api_url + 'estoque', config);
       setData(response.data.data);
-      console.log('Data:', response.data.data);
+      // console.log('Data:', response.data.data);
     } catch (error) {
       setError(error);
     } finally {
@@ -74,14 +74,13 @@ function TabelaProdutos() {
 
   const handleSubmit = async () => {
     try {
-      console.log('Config:', config)
+      // console.log('Config:', config)
       const body = { 
         id : produtoSelecionado.id, 
         atr : produtoSelecionado.atr 
       }
-      console.log('Body:', body);      
-      const res = await axios.put(api_url + 'estoque', body ,config);
-      console.log(res);
+      // console.log('Body:', body);      
+      await axios.put(api_url + 'estoque', body ,config);
       handleCloseModal();
     } catch (error) {
       console.error('Erro ao atualizar produto:', error);
@@ -94,9 +93,7 @@ function TabelaProdutos() {
     const produtoExcluir = filteredData[index];
     if (window.confirm(`Tem certeza que deseja excluir ${produtoExcluir.atr.name}?`)) {
       try {
-        const res = await axios.delete(api_url + 'estoque', { headers: config.headers, data : { id : produtoExcluir.id } } );
-        console.log(res);
-        
+        await axios.delete(api_url + 'estoque', { headers: config.headers, data : { id : produtoExcluir.id } } );
       } catch (error) {
         console.error('Erro ao excluir produto:', error);
       }
@@ -130,7 +127,7 @@ function TabelaProdutos() {
 
       });
       setFilteredData(sortedData);
-      console.log(sortedData);
+      // console.log(sortedData);
     };
     // console.log("entrou no use")
     sortData();
@@ -138,7 +135,7 @@ function TabelaProdutos() {
 
   function changeSorting(field)
   {
-    console.log(field)
+    // console.log(field)
     if (field === currentSort) {
       setAsc(!asc); 
     } else {
@@ -262,9 +259,7 @@ function TabelaProdutos() {
           <Button variant="secondary" onClick={handleCloseModal}>
             Fechar
           </Button>
-          <Button variant="primary" onClick={handleSubmit}>
-            Salvar Alterações
-          </Button>
+          <button type="submit" onClick={handleSubmit}>Salvar Alterações</button>
         </Modal.Footer>
       </Modal>
     </div>
