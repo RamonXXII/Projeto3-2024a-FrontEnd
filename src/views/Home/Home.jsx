@@ -81,7 +81,7 @@ function Home() {
         <div className="body">
           <div className="row mb-5">
             <div className="d-flex flex-column col-12 justify-content-center align-items-center rounded-top-bottom">
-              <h1>Estoque</h1>
+              <h1 id='estoque'>Estoque</h1>
             </div>
             <div id="navbar" className='d-flex justify-content-end'>
               <Sidebar></Sidebar>

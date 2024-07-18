@@ -41,7 +41,9 @@ function Sidebar() {
             >
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                  Bem vindo, <b>{nome}</b>!
+                  <span id='welcome'>
+                    Bem vindo, <b>{nome}</b>!
+                  </span>
                 </Offcanvas.Title>
               </Offcanvas.Header>
 

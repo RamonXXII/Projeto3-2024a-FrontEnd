@@ -113,7 +113,13 @@
     right: 1.5em;
   }
 
-h1{
+#estoque{
              /*h v blur    */
   text-shadow: 0px 0px 5px #00FF00, 0 0 5px #000000;
+}
+
+#welcome{
+  display: inline-block;
+  border-radius: 5px;
+  background-color: #2ef52e;
 }
