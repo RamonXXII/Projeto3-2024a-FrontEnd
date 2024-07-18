@@ -120,6 +120,5 @@
 
 #welcome{
   display: inline-block;
-  border-radius: 5px;
-  background-color: #2ef52e;
+  box-shadow: #218838 0px 5px 0px 0px;
 }
