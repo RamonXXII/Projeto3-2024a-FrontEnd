@@ -103,8 +103,17 @@
     text-align: center;
   }
 
+  #logout-icon:hover{
+    color:rgb(255, 0, 0);
+  }
+
   #navbar {
     position: absolute;
     top: 4em;
     right: 1.5em;
   }
+
+h1{
+             /*h v blur    */
+  text-shadow: 0px 0px 5px #00FF00, 0 0 5px #000000;
+}

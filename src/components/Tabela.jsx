@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Table from 'react-bootstrap/Table';
-import './Tabela.scopped.css';
+import './Tabela.scoped.css';
 import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash, faArrowUpAZ, faArrowDownAZ, faArrowUp19, faArrowDown19} from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faArrowUpAZ, faArrowDownAZ, faArrowUp19, faArrowDown19, faArrowUp, faArrowDown, faFilter} from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -73,19 +73,33 @@ function TabelaProdutos() {
   };
 
   const handleSubmit = async () => {
+    let updated = false;
+
     try {
       // console.log('Config:', config)
       const body = { 
         id : produtoSelecionado.id, 
         atr : produtoSelecionado.atr 
       }
+
+      if (produtoSelecionado.atr.quantity <= 0){
+        window.alert("Insira uma quantidade válida.");
+        return;
+      }
+      
+      if (produtoSelecionado.cat !== 'roupa' && new Date(produtoSelecionado.atr.expiration) < new Date()){
+        window.alert("Insira uma data válida.");
+        return;
+      }
+      
       // console.log('Body:', body);      
       await axios.put(api_url + 'estoque', body ,config);
+      updated = true;
       handleCloseModal();
     } catch (error) {
       console.error('Erro ao atualizar produto:', error);
     } finally {
-      fetchData();
+      if (updated) fetchData();
     }
   };
 
@@ -111,12 +125,24 @@ function TabelaProdutos() {
       });
 
       const sortedData = [...filteredData_].sort((a, b) => {
-        const valueA = isNaN(+ a.atr[currentSort]) ? a.atr[currentSort] : + a.atr[currentSort];
-        const valueB = isNaN(+ b.atr[currentSort]) ? b.atr[currentSort] : + b.atr[currentSort];
-
+        var valueA = isNaN(+ a.atr[currentSort]) ? a.atr[currentSort] : + a.atr[currentSort];
+        var valueB = isNaN(+ b.atr[currentSort]) ? b.atr[currentSort] : + b.atr[currentSort];
+        
+        if (currentSort === 'expiration') {
+          if (asc) {
+            if (valueA === 'NA') valueA = '3050-12-31';
+            if (valueB === 'NA') valueB = '3050-12-31';
+            return (new Date(valueA) - new Date(valueB));
+          } else {
+            if (valueA === 'NA') valueA = '2000-12-31';
+            if (valueB === 'NA') valueB = '2000-12-31';
+            return (new Date(valueB) - new Date(valueA));
+          }
+        }
+        
         if (typeof valueA === 'number' && typeof valueB === 'number') {
           return asc ? valueA - valueB : valueB - valueA;
-        } 
+        }
         else if (typeof valueA === 'string' && typeof valueB === 'string') {
           if (asc) return valueA.localeCompare(valueB);
           else return valueB.localeCompare(valueA);
@@ -150,8 +176,11 @@ function TabelaProdutos() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div id="tabela">
+    <div>
       <div className="filter-container">
+        <span>
+          <FontAwesomeIcon id="filter-icon" icon={faFilter} className="action-icon"/>
+        </span>
         <span
           className={`filter-option ${selectedFilter.includes('comida') ? 'selected' : ''}`}
           onClick={() => toggleFilter('comida')}
@@ -171,7 +200,7 @@ function TabelaProdutos() {
           Roupa
         </span>
       </div>
-      <div style={{ maxHeight: "300px", overflowY: "auto" , overflowX : "auto"}}>
+      <div id="tabela" style={{ maxHeight: "300px", overflowY: "auto" , overflowX : "auto"}}>
         <Table striped bordered hover>
           <thead style={{ position: "sticky", 
               top: "0" }}>
@@ -188,6 +217,10 @@ function TabelaProdutos() {
                 Estoque
                 <FontAwesomeIcon onClick={() => changeSorting('quantity')} icon={currentSort === 'quantity' && asc ? faArrowUp19 : faArrowDown19} className="action-icon"/>
               </th>
+              <th>
+                Validade
+                <FontAwesomeIcon onClick={() => changeSorting('expiration')} icon={currentSort === 'expiration' && asc ? faArrowDown : faArrowUp} className="action-icon"/>
+              </th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -197,9 +230,10 @@ function TabelaProdutos() {
                 <td>{item.atr.name}</td>
                 <td>{item.atr.brand}</td>
                 <td>{item.atr.quantity}</td>
+                <td>{item.atr.expiration}</td>
                 <td className="actions">
                   <FontAwesomeIcon icon={faEdit} onClick={() => handleUpdate(index)} className="action-icon" />
-                  <FontAwesomeIcon icon={faTrash} onClick={() => handleDelete(index)} className="action-icon" />
+                  <FontAwesomeIcon id="trash-icon" icon={faTrash} onClick={() => handleDelete(index)} className="action-icon" />
                 </td>
               </tr>
             ))}
@@ -253,6 +287,23 @@ function TabelaProdutos() {
                 }
               />
             </Form.Group>
+              {
+                produtoSelecionado?.atr.expiration !== 'NA' && ( 
+                  <Form.Group controlId="formValidade">
+                    <Form.Label>Validade</Form.Label>
+                    <Form.Control
+                      type="date"
+                      value={produtoSelecionado?.atr.expiration || ''}
+                      onChange={(e) =>
+                        setProdutoSelecionado((prev) => ({
+                          ...prev,
+                          atr: { ...prev.atr, expiration: e.target.value },
+                        }))
+                      }
+                    />
+                  </Form.Group>
+                )
+              }
           </Form>
         </Modal.Body>
         <Modal.Footer>

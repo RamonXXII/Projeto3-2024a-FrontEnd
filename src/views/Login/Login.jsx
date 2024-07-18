@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import './Login.scopped.css';
-import SpinnerLoading from '../../components/Spinner';
+import './Login.scoped.css';
+import SpinnerLoading from '../../components/Spinner'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faUser, faUnlock} from '@fortawesome/free-solid-svg-icons';
 
 const Login = () => {
   const api_url = "https://estoque-api-latest.onrender.com/"
@@ -51,27 +53,37 @@ const Login = () => {
           <label htmlFor="user">
             <p>Usuário</p>
           </label>
-          <input 
-            type="text" 
-            id="user" 
-            value={user} 
-            onChange={(e) => setUser(e.target.value)} 
-            autoComplete='username'
-            required 
-          />
+          <div className="input-wrapper">
+            <FontAwesomeIcon icon={faUser} className="input-icon" />
+            <input
+              type="text"
+              id="user"
+              value={user}
+              onChange={(e) => setUser(e.target.value)}
+              autoComplete='username'
+              required
+              placeholder= 'Usuário'
+            />
+          </div>
+
         </div>
         <div className="form-group">
           <label htmlFor="password">
             <p>Senha</p>
-            </label>
-          <input 
-            type="password" 
-            id="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            autoComplete='current-password'
-            required 
-          />
+          </label>
+          <div className='input-wrapper'>
+            <FontAwesomeIcon icon={faUnlock} className="input-icon" />
+            <input 
+              type="password" 
+              id="password" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              autoComplete='current-password'
+              required 
+              placeholder='Senha'
+            />
+          </div>
+
         </div>
         {error && <p className="error">{error}</p>
         }

@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import './Home.scopped.css';
+import './Home.scoped.css';
 import axios from 'axios';
 import Categorias from '../../components/Categorias';
 import Tabela, {refreshTabela} from '../../components/Tabela';
@@ -26,7 +26,8 @@ function Home() {
     setFormData({
       name: '',
       quantity: '',
-      brand: ''
+      brand: '',
+      expiration:''
     });
     // console.log('Categoria selecionada:', selectedCategory);
     setCategory(selectedCategory);
@@ -50,6 +51,19 @@ function Home() {
       return;
     }
 
+    if (category === 'roupa') {
+      formData.expiration = 'NA';
+    } else if (new Date(formData.expiration) < new Date()){
+      window.alert("Insira uma data válida.");
+      return;
+    }
+    
+    if (formData.quantity <= 0){
+      window.alert("Insira uma quantidade válida.");
+      return;
+    }
+
+
     axios.post(api_url + 'estoque', {cat : category, atr : formData}, config)
     .then(() => {
       refreshTabela();
@@ -58,6 +72,7 @@ function Home() {
     .catch(error => {
       console.error('Error saving data:', error);
     });
+
   };
 
   return (
@@ -71,12 +86,12 @@ function Home() {
             <div id="navbar" className='d-flex justify-content-end'>
               <Sidebar></Sidebar>
             </div>
-            <div id='categorias' className='col-12 col-md-6'>
+            <div id='categorias' className='col-12 col-md-5'>
               <form onSubmit={handleSubmit}>
                 <div>
                   <Categorias onCategoryChange={handleCategoryChange} />
                 </div> 
-                { category && (
+                { category && category !== 'roupa' && (
                   <div>
                     <label htmlFor="name">Nome:</label>
                     <input type="text" id="name" required value={formData.name} onChange={handleInputChange} />
@@ -86,13 +101,27 @@ function Home() {
                     
                     <label htmlFor="quantity">Quantidade</label>
                     <input type="number" id="quantity" required value={formData.quantity} onChange={handleInputChange} />
+                  
+                    <label htmlFor="expiration">Data de Validade</label>
+                    <input type="date" id='expiration' required value={formData.expiration} onChange={handleInputChange}/>
+                  </div>)
+                }
+                { category === 'roupa' && (
+                  <div>
+                    <label htmlFor="name">Nome:</label>
+                    <input type="text" id="name" required value={formData.name} onChange={handleInputChange} />
 
+                    <label htmlFor="brand">Marca:</label>
+                    <input type="text" id="brand" required value={formData.brand} onChange={handleInputChange} />
+                    
+                    <label htmlFor="quantity">Quantidade</label>
+                    <input type="number" id="quantity" required value={formData.quantity} onChange={handleInputChange} />
                   </div>)
                 }
                 <button type="submit">Inserir Produto</button>
               </form>
             </div>
-            <div id= 'produtos' className='col-12 col-md-6 mt-4 mt-md-0'>
+            <div id= 'produtos' className='col-12 col-md-7 mt-4 mt-md-0'>
               <Tabela />
             </div>
           </div>

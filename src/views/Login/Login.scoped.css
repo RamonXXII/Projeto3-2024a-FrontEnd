@@ -1,0 +1,95 @@
+:root{
+  --cor-do-estoque: #85d172;
+  --submit: #a3dd90;
+  --background-produtos: #c2e8ae;
+  --background-categorias: #e0f4cb;
+  --background-geral: #ffffe9;
+  --verde-forte: #4fe728;
+  --verde-mais-forte: #2ef52e;
+}
+
+.login-form {
+  width: 300px;
+  margin: 100px auto;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+  padding: 100px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2em;
+}
+
+.form-group {
+  margin-bottom: 1em;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 10px;
+  pointer-events: none;
+  color: var(--cor-do-estoque);
+}
+
+input {
+  padding-left: 300px; /* Ajuste o valor conforme necessário */
+  width: 100%;
+  padding: 0.5em;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+input#user {
+  padding-left: 30px;
+}
+input#password {
+  padding-left: 30px;
+}
+input#confirmPassword {
+  padding-left: 30px;
+}

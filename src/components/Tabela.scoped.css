@@ -72,3 +72,25 @@
   border-top: 5px solid #218838;
   opacity: 1;
 }
+
+#trash-icon:hover {
+  color:red;
+}
+
+.filter-container {
+  display: inline-flex;
+  flex-wrap: wrap;
+  border-radius: 10px;
+  /* border: black 1px solid; */
+  box-shadow: #218838 5px 5px 5px 0px;
+  align-items: center;
+}
+
+#filter-icon {
+  font-size: 28px;
+}
+
+#tabela {
+  border-radius: 10px;
+  box-shadow: #218838 5px 5px 5px 3px;
+}

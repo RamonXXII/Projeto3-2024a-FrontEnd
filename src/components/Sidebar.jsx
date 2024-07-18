@@ -49,7 +49,7 @@ function Sidebar() {
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <Nav.Link onClick={handleLogout} id="logout">
                     Logout
-                    <FontAwesomeIcon icon={faRightFromBracket} className='action-icon'/>
+                    <FontAwesomeIcon icon={faRightFromBracket} id='logout-icon' className='action-icon'/>
                   </Nav.Link>
                 </Nav>
               </Offcanvas.Body>

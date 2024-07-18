@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import './Register.scopped.css';
+import './Register.scoped.css';
 import SpinnerLoading from '../../components/Spinner';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faUser, faUnlock} from '@fortawesome/free-solid-svg-icons';
 const Register = () => {
   const api_url = "https://estoque-api-latest.onrender.com/"
   
@@ -43,41 +44,54 @@ const Register = () => {
         <div className="form-group">
           <label htmlFor="username">
             <p>Nome de Usuário</p>
-            </label>
-          <input 
-            type="text" 
-            id="username" 
-            value={username} 
-            onChange={(e) => setUsername(e.target.value)} 
-            required 
-            autoComplete='username'
-          />
+          </label>
+          <div className='input-wrapper'>
+            <FontAwesomeIcon icon={faUser} className='input-icon' />
+            <input 
+              type="text" 
+              id="user" 
+              value={username} 
+              onChange={(e) => setUsername(e.target.value)} 
+              required 
+              autoComplete='username'
+              placeholder='Usuário'
+            />
+          </div>
         </div>
         <div className="form-group">
           <label htmlFor="password"> 
             <p>Digite sua senha</p>
-            </label>
-          <input 
-            type="password" 
-            id="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            autoComplete='new-password'
-            required 
-          />
+          </label>
+          <div className='input-wrapper'>
+            <FontAwesomeIcon icon={faUnlock} className='input-icon' />
+            <input 
+              type="password" 
+              id="password" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              autoComplete='new-password'
+              required
+              placeholder='Senha' 
+            />
+          </div>
+          
         </div>
         <div className="form-group">
           <label htmlFor="confirmPassword">
             <p>Confirme sua senha</p>
           </label>
-          <input 
-            type="password" 
-            id="confirmPassword" 
-            value={confirmPassword} 
-            onChange={(e) => setConfirmPassword(e.target.value)} 
-            autoComplete='new-password'
-            required 
+          <div className='input-wrapper'>
+            <FontAwesomeIcon icon={faUnlock} className='input-icon' />
+            <input 
+              type="password" 
+              id="confirmPassword" 
+              value={confirmPassword} 
+              onChange={(e) => setConfirmPassword(e.target.value)} 
+              autoComplete='new-password'
+              required 
+              placeholder='Confirme a senha'
             />
+          </div>
         </div>
         <p id=''>Já tem uma conta? <Link to="/">Faça Login</Link></p>
         {error && <p className="error">{error}</p>}

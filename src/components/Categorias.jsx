@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Categorias.scopped.css';
+import './Categorias.scoped.css';
 
 function Categorias(props) {
   const [category, setCategory] = useState('');
